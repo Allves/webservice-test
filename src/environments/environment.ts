@@ -3,7 +3,15 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  firebase: {
+    apiKey: "AIzaSyAzhk2G3IxcI9P4PXQxxHdMvhl20lQKapg",
+    authDomain: "praxio-webservice-ui.firebaseapp.com",
+    databaseURL: "https://praxio-webservice-ui.firebaseio.com",
+    projectId: "praxio-webservice-ui",
+    storageBucket: "praxio-webservice-ui.appspot.com",
+    messagingSenderId: "505507831102"
+  }
 };
 
 /*
