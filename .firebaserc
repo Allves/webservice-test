@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "praxio-webservice-ui": {
+      "hosting": {
+        "PraxioWebServiceUI": [
+          "praxio-webservice-ui"
+        ]
+      }
+    }
+  }
+}
