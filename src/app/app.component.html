@@ -1,3 +1,7 @@
 
-<app-header></app-header>
+<!-- <app-header></app-header> -->
+
+<div *ngFor="let hub of hubs$ | async">
+  {{hub | json}}
+  </div>
 <router-outlet></router-outlet>

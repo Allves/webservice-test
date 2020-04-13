@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from '../shared/shared.module';
 import { HeaderComponent } from './header/header.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import { SignalrModule } from './signalr/signalr.module';
 
 
 @NgModule({
@@ -10,6 +11,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
     CommonModule,
     SharedModule,
     MatToolbarModule,
+    SignalrModule,
   ],
   declarations: [HeaderComponent],
   exports: [HeaderComponent]
