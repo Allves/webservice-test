@@ -1,1 +1,62 @@
-<p>hubs works!</p>
+
+<button mat-raised-button color="accent" (click)="addHub()">Adicionar Hub</button>
+<div class="container mat-elevation-z8">
+
+
+
+  <div class="form">
+    <mat-form-field floatPlaceholder="never" color="accent">
+      <input matInput #filter placeholder="Filtrar Hubs" (keyup)="applyFilter($event.target.value)">
+    </mat-form-field>
+
+  </div>
+
+  <mat-table #table [dataSource]="dataSource" matSort class="animate">
+
+
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>ID </mat-header-cell>
+       <mat-cell *matCellDef="let hub">{{hub.name}}</mat-cell>
+
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Nome </mat-header-cell>
+       <mat-cell *matCellDef="let hub">{{hub.name}}</mat-cell>
+
+    </ng-container>
+
+    <ng-container matColumnDef="url">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>URL </mat-header-cell>
+       <mat-cell *matCellDef="let hub">{{hub.name}}</mat-cell>
+
+    </ng-container>
+
+    <ng-container matColumnDef="active">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Ativo </mat-header-cell>
+       <mat-cell *matCellDef="let hub">{{hub.active ? 'Sim' : 'Não'}}</mat-cell>
+
+    </ng-container>
+
+    <ng-container matColumnDef="connect">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> </mat-header-cell>
+       <mat-cell *matCellDef="let hub">
+         <button mat-raised-button color="primary" (click)="connectHub(hub)">Conectar</button>
+       </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="edit">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> </mat-header-cell>
+       <mat-cell *matCellDef="let hub">
+         <button mat-raised-button color="secondary" (click)="openDialog(hub)">Editar</button>
+       </mat-cell>
+    </ng-container>
+
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;" class="animate"></mat-row>
+
+  </mat-table>
+
+
+</div>

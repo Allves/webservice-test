@@ -1,51 +1,67 @@
+import {
+  HubConnection,
+  HubConnectionBuilder,
+  HttpTransportType,
+} from '@aspnet/signalr';
 import { EventEmitter, Injectable } from '@angular/core';
-import { HubConnection, HubConnectionBuilder, HttpTransportType } from '@aspnet/signalr';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ConnectionService {
   response = new EventEmitter<any>();
   connectionEstablished = new EventEmitter<boolean>();
 
-
   private connectionIsEstablished = false;
   private _hubConnection: HubConnection;
-  private connection: string;
 
-  constructor() {
-  }
+  constructor() {}
 
-  public startProcess() {
-    this.createConnection();
-    this.registerOnServerEvents();
-    this.startConnection();
-  }
-
-  private createConnection() {
+  public createConnection(connectionString: string) {
     this._hubConnection = new HubConnectionBuilder()
-      .withUrl(this.connection, {
+      .withUrl(connectionString, {
         skipNegotiation: true,
-        transport: HttpTransportType.WebSockets
+        transport: HttpTransportType.WebSockets,
       })
       .build();
-  }
 
-  private startConnection(): void {
     this._hubConnection
       .start()
       .then(() => {
-        this.connectionIsEstablished = true;
-        console.log(`Conectado ao hub ${this.connection}`);
-        this.connectionEstablished.emit(true);
+        this.connectionEstablished.emit();
+        console.log(`Conectado ao hub ${connectionString}`);
+        this.startStreaming('StreamStocks');
       })
-      .catch(err => {
-        console.log(`Erro ao tentar conectar em ${this.connection}, tentando novamente em 10 segundos`)
-        setTimeout(function() { this.startConnection(); }, 10000);
+      .catch((err) => {
+        console.log(`Erro ao tentar conectar em ${connectionString}`);
       });
   }
 
-  private registerOnServerEvents(): void {
-    this._hubConnection.on('hub', (data: any) => {
-      this.response.emit(data);
+  public stopConnection() {
+    this._hubConnection.stop();
+  }
+
+  public registerOnServerEvents(): void {
+    this._hubConnection.on('marketOpened', (data: any) => {
+      console.log(data);
     });
   }
-};
+
+  public startStreaming(channelName: string ) {
+    return this._hubConnection.stream(channelName).subscribe({
+      next: data => {
+        console.log('data');
+        console.log(data);
+      },
+      complete: () => {
+        console.log('complete');
+      },
+      error: error => {
+        console.log('error');
+        console.log(error);
+      }
+    });
+  }
+
+
+}

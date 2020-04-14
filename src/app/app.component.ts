@@ -1,7 +1,8 @@
 import { FirebaseService } from './core/services/firebase.service';
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ISignalR } from './core/signalr/signalr.model';
+import { IHub } from './core/signalr/hub.model';
+import { ConnectionService } from './core/signalr/connection/connection.service';
 
 @Component({
   selector: 'app-root',
@@ -10,10 +11,16 @@ import { ISignalR } from './core/signalr/signalr.model';
 })
 export class AppComponent {
   title = 'PraxioWebServiceUI';
-  hubs$: Observable<ISignalR[]>;
+  hubs$: Observable<IHub[]>;
 
-  constructor(private firebaseService: FirebaseService) {
-     this.firebaseService.getActives().subscribe(response => console.log(response));
+  constructor(private firebaseService: FirebaseService, private connectionService: ConnectionService) {
+
+    //  this.connectionService.createConnection();
+    //  this.connectionService.registerOnServerEvents();
+
+
   }
+
+
 
 }

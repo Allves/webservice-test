@@ -1,19 +1,19 @@
-import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable } from "rxjs";
-import { ISignalR } from "./signalr.model";
+ import { Injectable } from '@angular/core';
+ import { BehaviorSubject, Observable } from 'rxjs';
+ import { IHub } from './hub.model';
 
-@Injectable()
+ @Injectable()
 export class SignalRService {
-  private signalRObservable: BehaviorSubject<ISignalR> = new BehaviorSubject({
-    url: "http://localhost:91/hub",
-  });
+  // private signalRObservable: BehaviorSubject<IHub> = new BehaviorSubject({
 
-  public getSignalRConfiguration(): Observable<ISignalR> {
-    return this.signalRObservable.asObservable();
+  // });
+
+  public getSignalRConfiguration() {
+    // return this.signalRObservable.asObservable();
   }
 
-  public setSignalRConfiguration(configuration: ISignalR) {
-    this.signalRObservable.next(configuration);
+  public setSignalRConfiguration(configuration: IHub) {
+    // this.signalRObservable.next(configuration);
   }
 
   constructor() {}
