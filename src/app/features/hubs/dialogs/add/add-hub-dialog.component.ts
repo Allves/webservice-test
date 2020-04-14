@@ -1,15 +1,9 @@
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Component, Inject } from '@angular/core';
-
-import {
-  FormControl,
-  Validators,
-  FormGroup,
-  FormBuilder,
-  FormArray,
-} from '@angular/forms';
-import { IHub } from '../../../../core/signalr/hub.model';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FirebaseService } from '../../../../core/services/firebase.service';
+import { IHub } from '../../../../core/signalr/hub.model';
+
 
 @Component({
   templateUrl: './add-hub-dialog.component.html',
@@ -74,14 +68,17 @@ export class AddHubDialogComponent {
   }
 
   submit() {
-    // emppty stuff
+    if (this.formGroup.invalid) {
+      return;
+    }
+
+    this.firebaseService.createHub(this.formGroup.value);
+    this.dialogRef.close();
+
   }
 
   onNoClick(): void {
     this.dialogRef.close();
   }
 
-  public confirmAdd(): void {
-    this.firebaseService.createHub(this.data);
-  }
 }

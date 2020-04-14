@@ -1,4 +1,5 @@
 export interface IHub {
+  id: string;
   name: string;
   nameToSearch: string;
   url: string;

@@ -47,8 +47,8 @@ export class HubsComponent implements AfterViewInit {
   }
 
   editHub(data): void {
-      const dialogRef = this.dialog.open(EditHubDialogComponent, {
-        width: '350px',
+      this.dialog.open(EditHubDialogComponent, {
+        width: '550px',
         data
       });
   }
@@ -58,7 +58,7 @@ export class HubsComponent implements AfterViewInit {
       connected: true,
       name: hub.name
     };
-    this.connectionService.createConnection(hub.name);
+    this.connectionService.createConnection(hub);
   }
 
   disconnectHub(hub: IHub) {
@@ -66,15 +66,13 @@ export class HubsComponent implements AfterViewInit {
       connected: false,
       name: ''
     };
-    this.connectionService.stopConnection(hub.name);
+    this.connectionService.stopConnection(hub);
   }
 
   addHub(): void {
-    const dialogRef = this.dialog.open(AddHubDialogComponent, {
-      width: '350px',
+    this.dialog.open(AddHubDialogComponent, {
+      width: '550px',
     });
-
-    dialogRef.afterClosed().subscribe((response => console.log(response)));
   }
 
 }

@@ -1,52 +1,113 @@
-<h1 mat-dialog-title>Adicionar novo Hub</h1>
-<div mat-dialog-content class="mat-typography">
-  <form [formGroup]="formGroup" class="form-container" >
-    <mat-form-field >
-      <mat-label>
-        Nome
-      </mat-label>
-      <input matInput type="text" name="name" required formControlName="name" />
-      <mat-error *ngIf="!formGroup.get('name').valid && formGroup.get('name').touched">
-        Nome é obrigatório
-      </mat-error>
-    </mat-form-field>
+<div class="container">
 
-    <mat-form-field >
-      <mat-label>
-        URL
-      </mat-label>
-      <input matInput type="text" name="url" required formControlName="url" />
-      <mat-error *ngIf="!formGroup.get('url').valid && formGroup.get('url').touched">
-        URL é obrigatório
-      </mat-error>
-    </mat-form-field>
+<h2 mat-dialog-title>Adicionar novo Hub</h2>
 
-    <mat-form-field >
-      <mat-label>
-        Descrição
-      </mat-label>
-      <input matInput type="text" name="description" formControlName="description" />
-    </mat-form-field>
+<mat-dialog-content [formGroup]="formGroup">
+  <mat-form-field>
+    <input
+      matInput
+      placeholder="Nome"
+      type="text"
+      name="name"
+      required
+      formControlName="name"
+    />
+    <mat-error
+      *ngIf="!formGroup.get('name').valid && formGroup.get('name').touched"
+    >
+      Nome é obrigatório
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <input
+      matInput
+      placeholder="URL"
+      type="text"
+      name="url"
+      required
+      formControlName="url"
+    />
+    <mat-error
+      *ngIf="!formGroup.get('url').valid && formGroup.get('url').touched"
+    >
+      URL é obrigatório
+    </mat-error>
+  </mat-form-field>
 
+  <mat-form-field>
+    <input
+      matInput
+      placeholder="Descrição"
+      type="text"
+      name="description"
+      formControlName="description"
+    />
+  </mat-form-field>
 
-    <h3>Canais</h3>
+  <div class="formArray">
+    <h3 mat-dialog-title>
+      Métodos
+      <button
+        class="float"
+        mat-icon-button
+        color="primary"
+        (click)="addChannel()"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+    </h3>
 
     <div formArrayName="channels">
-      <div *ngFor="let channel of channels.controls; let i=index">
+      <div *ngFor="let channel of channels.controls; let i = index">
         <div [formGroupName]="i">
-          <mat-form-field >
-            <mat-label>
-              Nome
-            </mat-label>
-            <input matInput type="text" name="description" formControlName="description" />
+          <mat-form-field>
+            <input
+              matInput
+              placeholder="Nome do Canal"
+              type="text"
+              name="name"
+              formControlName="name"
+            />
           </mat-form-field>
         </div>
       </div>
     </div>
-  </form>
-</div>
-<div mat-dialog-actions class fxLayout="row wrap" fxLayoutAlign="end end" fxLayoutGap="10px">
-  <button mat-raised-button color="primary" type="button" >
-   Confirmar
-  </button>
+  </div>
+
+  <div class="formArray">
+    <h3 mat-dialog-title>
+      Streams
+      <button
+        class="float"
+        mat-icon-button
+        color="primary"
+        (click)="addEvent()"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+    </h3>
+
+    <div formArrayName="events">
+      <div *ngFor="let evento of events.controls; let i = index">
+        <div [formGroupName]="i">
+          <mat-form-field>
+            <input
+              matInput
+              placeholder="Nome do Evento"
+              type="text"
+              name="name"
+              formControlName="name"
+            />
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions class="float">
+  <button class="mat-raised-button" (click)="onNoClick()">Sair</button>
+  <button class="mat-raised-button mat-primary" (click)="submit()">Salvar</button>
+</mat-dialog-actions>
+
 </div>

@@ -4,6 +4,7 @@ import {
   HttpTransportType,
 } from '@aspnet/signalr';
 import { EventEmitter, Injectable } from '@angular/core';
+import { IHub } from '../hub.model';
 
 @Injectable({
   providedIn: 'root',
@@ -17,9 +18,9 @@ export class ConnectionService {
 
   constructor() {}
 
-  public createConnection(connectionString: string) {
+  public createConnection(hub: IHub) {
     this._hubConnection = new HubConnectionBuilder()
-      .withUrl(connectionString, {
+      .withUrl(hub.url, {
         skipNegotiation: true,
         transport: HttpTransportType.WebSockets,
       })
@@ -29,22 +30,31 @@ export class ConnectionService {
       .start()
       .then(() => {
         this.connectionEstablished.emit();
-        console.log(`Conectado ao hub ${connectionString}`);
+        console.log(`Conectado ao hub ${hub.name}`);
+
+        for (const channel of hub.channels) {
+          this.startStreaming(channel.name);
+        }
+
+        for (const event of hub.events) {
+          this.registerOnServerEvents(event.name);
+        }
+
 
       })
       .catch((err) => {
-        console.log(`Erro ao tentar conectar em ${connectionString}`);
+        console.log(`Erro ao tentar conectar em ${hub.name}`);
       });
   }
 
-  public stopConnection(connectionString: string) {
+  public stopConnection(hub: IHub) {
     this._hubConnection.stop()
     .then(() => {
 
-      console.log(`Desconetado do hub ${connectionString}`);
+      console.log(`Desconetado do hub ${hub.name}`);
     })
     .catch((err) => {
-      console.log(`Erro ao desconectar de ${connectionString}`);
+      console.log(`Erro ao desconectar de ${hub.name}`);
     });;
   }
 
@@ -63,7 +73,7 @@ export class ConnectionService {
   public startStreaming(channelName: string ) {
     return this._hubConnection.stream(channelName).subscribe({
       next: data => {
-        console.log('data');
+        console.log('Stream');
         console.log(data);
       },
       complete: () => {

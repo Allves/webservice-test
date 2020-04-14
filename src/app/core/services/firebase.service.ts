@@ -33,9 +33,9 @@ export class FirebaseService {
     return this.db.collection('hubs').doc(hubKey).delete();
   }
 
-  searchHubs(searchValue) {
+  searchHubs(searchValue ) {
     return this.db.collection('hubs ', ref =>
-    ref.startAt(searchValue.toLowerCase()).endAt(searchValue.toLowerCase() + "\uf8ff"))
+    ref.startAt(searchValue.toLowerCase()).endAt(searchValue.toLowerCase() + "\uf8ff"));
   }
 
   getActives() {
@@ -48,6 +48,8 @@ export class FirebaseService {
       nameToSearch: value.name.toLowerCase(),
       description: value.description,
       url: value.url,
+      events: value.events,
+      channels: value.channels,
       active: true,
     });
   }

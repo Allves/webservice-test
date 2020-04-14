@@ -1,53 +1,113 @@
-<!-- <div class="container">
-  <h3 mat-dialog-title>Issue id: {{data.id}}</h3>
+<div class="container">
 
-  <form class="mat-dialog-content" (ngSubmit)="submit" #formControl="ngForm">
+  <h2 mat-dialog-title>Adicionar novo Hub</h2>
 
-    <div class="form">
-      <mat-form-field color="accent">
-        <input matInput #input class="form-control" placeholder="Id" [(ngModel)]="data.id" name="id" required >
-        <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
-      </mat-form-field>
+  <mat-dialog-content [formGroup]="formGroup">
+    <mat-form-field>
+      <input
+        matInput
+        placeholder="Nome"
+        type="text"
+        name="name"
+        required
+        formControlName="name"
+      />
+      <mat-error
+        *ngIf="!formGroup.get('name').valid && formGroup.get('name').touched"
+      >
+        Nome é obrigatório
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        placeholder="URL"
+        type="text"
+        name="url"
+        required
+        formControlName="url"
+      />
+      <mat-error
+        *ngIf="!formGroup.get('url').valid && formGroup.get('url').touched"
+      >
+        URL é obrigatório
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input
+        matInput
+        placeholder="Descrição"
+        type="text"
+        name="description"
+        formControlName="description"
+      />
+    </mat-form-field>
+
+    <div class="formArray">
+      <h3 mat-dialog-title>
+        Métodos
+        <button
+          class="float"
+          mat-icon-button
+          color="primary"
+          (click)="addChannel()"
+        >
+          <mat-icon>add</mat-icon>
+        </button>
+      </h3>
+
+      <div formArrayName="channels">
+        <div *ngFor="let channel of channels.controls; let i = index">
+          <div [formGroupName]="i">
+            <mat-form-field>
+              <input
+                matInput
+                placeholder="Nome do Canal"
+                type="text"
+                name="name"
+                formControlName="name"
+              />
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
     </div>
 
+    <div class="formArray">
+      <h3 mat-dialog-title>
+        Streams
+        <button
+          class="float"
+          mat-icon-button
+          color="primary"
+          (click)="addEvent()"
+        >
+          <mat-icon>add</mat-icon>
+        </button>
+      </h3>
 
-    <div class="form">
-      <mat-form-field color="accent">
-        <textarea matInput #input class="form-control" placeholder="Title" [(ngModel)]="data.title" name="title" required ></textarea>
-        <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
-      </mat-form-field>
+      <div formArrayName="events">
+        <div *ngFor="let evento of events.controls; let i = index">
+          <div [formGroupName]="i">
+            <mat-form-field>
+              <input
+                matInput
+                placeholder="Nome do Evento"
+                type="text"
+                name="name"
+                formControlName="name"
+              />
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
     </div>
+  </mat-dialog-content>
 
+  <mat-dialog-actions class="float">
+    <button class="mat-raised-button" (click)="onNoClick()">Sair</button>
+    <button class="mat-raised-button mat-primary" (click)="submit()">Salvar</button>
+  </mat-dialog-actions>
 
-    <div class="form">
-      <mat-form-field color="accent">
-        <input matInput #inputstate class="form-control" placeholder="State" [(ngModel)]="data.state" name="state" maxlength="10" required >
-        <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
-        <mat-hint align="end">{{inputstate.value?.length || 0}}/10</mat-hint>
-      </mat-form-field>
-    </div>
-
-    <div class="form">
-        <mat-form-field color="accent">
-          <input matInput placeholder="Url" [(ngModel)]="data.url" name="url">
-        </mat-form-field>
-    </div>
-
-    <div class="form">
-      <mat-form-field color="accent">
-        <input matInput placeholder="Created at" [(ngModel)]="data.created_at" name="created_at">
-      </mat-form-field>
-    </div>
-
-    <div class="form">
-      <mat-form-field color="accent">
-        <input matInput placeholder="Updated at" [(ngModel)]="data.updated_at" name="updated_at">
-      </mat-form-field>
-    </div>
-
-    <div mat-dialog-actions>
-      <button mat-button [type]="submit" [disabled]="!formControl.valid" [mat-dialog-close]="1" (click)="stopEdit()">Save</button>
-      <button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
-    </div>
-  </form>
-</div> -->
+  </div>
