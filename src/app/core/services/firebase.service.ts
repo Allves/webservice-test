@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import * as faker from 'faker';
-import { IHub } from './../signalr/hub.model';
 import { map } from 'rxjs/operators';
+import { IHub } from './../signalr/hub.model';
 
 
 @Injectable({
@@ -34,7 +33,7 @@ export class FirebaseService {
     return this.db.collection('hubs').doc(hubKey).delete();
   }
 
-  searchHubs(searchValue = 'teste') {
+  searchHubs(searchValue) {
     return this.db.collection('hubs ', ref =>
     ref.startAt(searchValue.toLowerCase()).endAt(searchValue.toLowerCase() + "\uf8ff"))
   }
@@ -46,6 +45,7 @@ export class FirebaseService {
   createHub(value: IHub) {
     return this.db.collection('hubs').add({
       name: value.name,
+      nameToSearch: value.name.toLowerCase(),
       description: value.description,
       url: value.url,
       active: true,

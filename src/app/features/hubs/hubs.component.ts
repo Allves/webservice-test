@@ -7,6 +7,7 @@ import { IHub } from 'src/app/core/signalr/hub.model';
 import { FirebaseService } from '../../core/services/firebase.service';
 import { EditHubDialogComponent } from './dialogs/edit/edit-hub-dialog.component';
 import { ConnectionService } from '../../core/signalr/connection/connection.service';
+import { AddHubDialogComponent } from './dialogs/add/add-hub-dialog.component';
 
 
 
@@ -17,8 +18,12 @@ import { ConnectionService } from '../../core/signalr/connection/connection.serv
 })
 export class HubsComponent implements AfterViewInit {
 
-  displayedColumns = ['id', 'name', 'url', 'active', 'connect', 'edit'];
+  displayedColumns = ['name', 'url', 'active', 'connect', 'disconnect', 'edit'];
   dataSource: MatTableDataSource<any>;
+  public hubConnected = {
+    connected: false,
+    name: ''
+  };
 
   @ViewChild(MatSort) sort: MatSort;
 
@@ -41,7 +46,7 @@ export class HubsComponent implements AfterViewInit {
     this.dataSource.filter = filterValue;
   }
 
-  openDialog(data): void {
+  editHub(data): void {
       const dialogRef = this.dialog.open(EditHubDialogComponent, {
         width: '350px',
         data
@@ -49,12 +54,27 @@ export class HubsComponent implements AfterViewInit {
   }
 
   connectHub(hub: IHub) {
-    this.connectionService.createConnection(hub.url);
+    this.hubConnected = {
+      connected: true,
+      name: hub.name
+    };
+    this.connectionService.createConnection(hub.name);
+  }
 
+  disconnectHub(hub: IHub) {
+    this.hubConnected = {
+      connected: false,
+      name: ''
+    };
+    this.connectionService.stopConnection(hub.name);
   }
 
   addHub(): void {
-    this.connectionService.stopConnection();
-  };
+    const dialogRef = this.dialog.open(AddHubDialogComponent, {
+      width: '350px',
+    });
+
+    dialogRef.afterClosed().subscribe((response => console.log(response)));
+  }
 
 }

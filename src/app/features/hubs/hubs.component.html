@@ -1,62 +1,90 @@
 
-<button mat-raised-button color="accent" (click)="addHub()">Adicionar Hub</button>
+
 <div class="container mat-elevation-z8">
-
-
-
   <div class="form">
     <mat-form-field floatPlaceholder="never" color="accent">
-      <input matInput #filter placeholder="Filtrar Hubs" (keyup)="applyFilter($event.target.value)">
+      <input
+        matInput
+        #filter
+        placeholder="Filtrar Hubs"
+        (keyup)="applyFilter($event.target.value)"
+      />
     </mat-form-field>
-
   </div>
 
+  <button class="custom-button" mat-mini-fab color="accent"(click)="addHub()">
+    <mat-icon>add</mat-icon>
+  </button>
+
+
   <mat-table #table [dataSource]="dataSource" matSort class="animate">
-
-
-    <ng-container matColumnDef="id">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>ID </mat-header-cell>
-       <mat-cell *matCellDef="let hub">{{hub.name}}</mat-cell>
-
-    </ng-container>
-
     <ng-container matColumnDef="name">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Nome </mat-header-cell>
-       <mat-cell *matCellDef="let hub">{{hub.name}}</mat-cell>
-
+      <mat-cell *matCellDef="let hub">{{ hub.name }}</mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="url">
       <mat-header-cell *matHeaderCellDef mat-sort-header>URL </mat-header-cell>
-       <mat-cell *matCellDef="let hub">{{hub.name}}</mat-cell>
-
+      <mat-cell *matCellDef="let hub">{{ hub.url }}</mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="active">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Ativo </mat-header-cell>
-       <mat-cell *matCellDef="let hub">{{hub.active ? 'Sim' : 'Não'}}</mat-cell>
-
+      <mat-header-cell *matHeaderCellDef mat-sort-header
+        >Ativo
+      </mat-header-cell>
+      <mat-cell *matCellDef="let hub">{{
+        hub.active ? "Sim" : "Não"
+      }}</mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="connect">
       <mat-header-cell *matHeaderCellDef mat-sort-header> </mat-header-cell>
-       <mat-cell *matCellDef="let hub">
-         <button mat-raised-button color="primary" (click)="connectHub(hub)">Conectar</button>
-       </mat-cell>
+      <mat-cell *matCellDef="let hub">
+        <button
+          mat-icon-button
+          [disabled]="hubConnected.connected"
+          (click)="connectHub(hub)"
+        >
+          <mat-icon>power_settings_new</mat-icon>
+          Conectar
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="disconnect">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> </mat-header-cell>
+      <mat-cell *matCellDef="let hub">
+        <button
+          mat-icon-button
+          color="accent"
+          [disabled]="!hubConnected.connected || hubConnected.name !== hub.name"
+          (click)="disconnectHub(hub)"
+        >
+          <mat-icon>highlight_off</mat-icon>
+          Disconectar
+        </button>
+      </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="edit">
       <mat-header-cell *matHeaderCellDef mat-sort-header> </mat-header-cell>
-       <mat-cell *matCellDef="let hub">
-         <button mat-raised-button color="secondary" (click)="openDialog(hub)">Editar</button>
-       </mat-cell>
+      <mat-cell *matCellDef="let hub">
+        <button
+          mat-icon-button
+          color="primary"
+          [disabled]="hubConnected.connected"
+          (click)="editHub(hub)"
+        >
+          <mat-icon>edit</mat-icon>
+          Editar
+        </button>
+      </mat-cell>
     </ng-container>
 
-
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;" class="animate"></mat-row>
-
+    <mat-row
+      *matRowDef="let row; columns: displayedColumns"
+      class="animate"
+    ></mat-row>
   </mat-table>
-
-
 </div>

@@ -15,10 +15,6 @@ export class AppComponent {
 
   constructor(private firebaseService: FirebaseService, private connectionService: ConnectionService) {
 
-    //  this.connectionService.createConnection();
-    //  this.connectionService.registerOnServerEvents();
-
-
   }
 
 

@@ -30,20 +30,33 @@ export class ConnectionService {
       .then(() => {
         this.connectionEstablished.emit();
         console.log(`Conectado ao hub ${connectionString}`);
-        this.startStreaming('StreamStocks');
+
       })
       .catch((err) => {
         console.log(`Erro ao tentar conectar em ${connectionString}`);
       });
   }
 
-  public stopConnection() {
-    this._hubConnection.stop();
+  public stopConnection(connectionString: string) {
+    this._hubConnection.stop()
+    .then(() => {
+
+      console.log(`Desconetado do hub ${connectionString}`);
+    })
+    .catch((err) => {
+      console.log(`Erro ao desconectar de ${connectionString}`);
+    });;
   }
 
-  public registerOnServerEvents(): void {
-    this._hubConnection.on('marketOpened', (data: any) => {
+  public registerOnServerEvents(serverEvent: string): void {
+    this._hubConnection.on(serverEvent, (data: any) => {
       console.log(data);
+    });
+  }
+
+  public unRegisterOnServerEvents(serverEvent: string): void {
+    this._hubConnection.off(serverEvent, (data: any) => {
+
     });
   }
 
