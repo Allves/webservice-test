@@ -1,0 +1,25 @@
+<mat-card class="container">
+    <mat-card-content>
+      <form class="example-form">
+        <mat-form-field class="example-full-width">
+          <mat-label>URL</mat-label>
+          <input matInput
+
+          [(ngModel)]="data.url" name="URL"
+          >
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <mat-label>Payload em JSON</mat-label>
+          <textarea matInput
+          [(ngModel)]="data.payload" name="payload"
+           ></textarea>
+        </mat-form-field>
+      </form>
+
+    </mat-card-content>
+    <mat-card-actions align="start">
+        <button mat-raised-button color="primary" (click)="enviar()">Enviar</button>
+
+    </mat-card-actions>
+</mat-card>

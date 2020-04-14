@@ -23,14 +23,14 @@ export class AddHubDialogComponent {
       url: [null, Validators.required],
       description: [null],
       active: [true, Validators.required],
-      channels: this.formBuilder.array([this.createEvent()]),
-      events: this.formBuilder.array([]),
+      methods: this.formBuilder.array([this.createStream()]),
+      streams: this.formBuilder.array([]),
     });
   }
 
 
-  get channels(): FormArray {
-    return this.formGroup.get("channels") as FormArray
+  get methods(): FormArray {
+    return this.formGroup.get("methods") as FormArray
   }
 
   createChannel() {
@@ -40,30 +40,30 @@ export class AddHubDialogComponent {
   }
 
   addChannel() {
-    this.channels.push(this.createChannel());
+    this.methods.push(this.createChannel());
   }
 
   deleteChannel(i: number) {
-    this.channels.removeAt(i);
+    this.methods.removeAt(i);
 
   }
 
-  get events(): FormArray {
-    return this.formGroup.get("events") as FormArray
+  get streams(): FormArray {
+    return this.formGroup.get("streams") as FormArray
   }
 
-  createEvent() {
+  createStream() {
     return this.formBuilder.group({
       name: '',
     });
   }
 
-  addEvent() {
-    this.events.push(this.createEvent());
+  addStream() {
+    this.streams.push(this.createStream());
   }
 
-  deleteEvent(i: number) {
-    this.events.removeAt(i);
+  deleteStream(i: number) {
+    this.streams.removeAt(i);
 
   }
 

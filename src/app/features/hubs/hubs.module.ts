@@ -4,6 +4,7 @@ import { MatDialogModule } from "@angular/material/dialog";
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { MatSortModule } from "@angular/material/sort";
 import { MatTableModule } from "@angular/material/table";
+import { MatCardModule } from "@angular/material/card";
 
 import { AddHubDialogComponent } from "./dialogs/add/add-hub-dialog.component";
 import { DeleteHubDialogComponent } from "./dialogs/delete/delete-hub-dialog.component";
@@ -11,6 +12,7 @@ import { EditHubDialogComponent } from "./dialogs/edit/edit-hub-dialog.component
 import { HubsRoutingModule } from "./hubs-routing.module";
 import { HubsComponent } from "./hubs.component";
 import { SharedModule } from '../../shared/shared.module';
+import { HubsHttpTestComponent } from './hubs-http-test/hubs-http-test.component';
 
 const DIALOGS_MODULES = [
   AddHubDialogComponent,
@@ -19,7 +21,7 @@ const DIALOGS_MODULES = [
 ];
 
 @NgModule({
-  declarations: [HubsComponent, ...DIALOGS_MODULES],
+  declarations: [HubsComponent, ...DIALOGS_MODULES, HubsHttpTestComponent],
   imports: [
     CommonModule,
     SharedModule,
@@ -28,6 +30,7 @@ const DIALOGS_MODULES = [
     MatPaginatorModule,
     MatSortModule,
     MatTableModule,
+    MatCardModule,
   ],
   entryComponents: [...DIALOGS_MODULES],
 })

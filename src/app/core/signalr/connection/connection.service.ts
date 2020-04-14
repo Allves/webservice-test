@@ -32,12 +32,13 @@ export class ConnectionService {
         this.connectionEstablished.emit();
         console.log(`Conectado ao hub ${hub.name}`);
 
-        for (const channel of hub.channels) {
-          this.startStreaming(channel.name);
+        for (const stream of hub.streams) {
+
+          this.startStreaming(stream.name);
         }
 
-        for (const event of hub.events) {
-          this.registerOnServerEvents(event.name);
+        for (const method of hub.methods) {
+          this.registerOnServerMethods(method.name);
         }
 
 
@@ -58,22 +59,23 @@ export class ConnectionService {
     });;
   }
 
-  public registerOnServerEvents(serverEvent: string): void {
+  public registerOnServerMethods(serverEvent: string): void {
     this._hubConnection.on(serverEvent, (data: any) => {
+      console.log(serverEvent);
       console.log(data);
     });
   }
 
-  public unRegisterOnServerEvents(serverEvent: string): void {
+  public unRegisterOnServerMethods(serverEvent: string): void {
     this._hubConnection.off(serverEvent, (data: any) => {
 
     });
   }
 
-  public startStreaming(channelName: string ) {
-    return this._hubConnection.stream(channelName).subscribe({
+  public startStreaming(methodName: string ) {
+    return this._hubConnection.stream(methodName).subscribe({
       next: data => {
-        console.log('Stream');
+        console.log('Stream data');
         console.log(data);
       },
       complete: () => {

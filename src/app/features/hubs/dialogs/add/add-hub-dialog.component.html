@@ -57,8 +57,8 @@
       </button>
     </h3>
 
-    <div formArrayName="channels">
-      <div *ngFor="let channel of channels.controls; let i = index">
+    <div formArrayName="methods">
+      <div *ngFor="let method of methods.controls; let i = index">
         <div [formGroupName]="i">
           <mat-form-field>
             <input
@@ -81,14 +81,14 @@
         class="float"
         mat-icon-button
         color="primary"
-        (click)="addEvent()"
+        (click)="addStream()"
       >
         <mat-icon>add</mat-icon>
       </button>
     </h3>
 
-    <div formArrayName="events">
-      <div *ngFor="let evento of events.controls; let i = index">
+    <div formArrayName="streams">
+      <div *ngFor="let stream of streams.controls; let i = index">
         <div [formGroupName]="i">
           <mat-form-field>
             <input

@@ -44,13 +44,8 @@ export class FirebaseService {
 
   createHub(value: IHub) {
     return this.db.collection('hubs').add({
-      name: value.name,
       nameToSearch: value.name.toLowerCase(),
-      description: value.description,
-      url: value.url,
-      events: value.events,
-      channels: value.channels,
-      active: true,
+      ...value
     });
   }
 }

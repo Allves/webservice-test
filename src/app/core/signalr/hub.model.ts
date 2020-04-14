@@ -5,15 +5,15 @@ export interface IHub {
   url: string;
   description: string;
   active: boolean;
-  channels: IChannel[];
-  events: IEvent[];
+  methods: IMethods[];
+  streams: IStream[];
 }
 
 
-interface IChannel {
+interface IMethods {
   name: string;
 }
 
-interface IEvent {
+interface IStream {
   name: string;
 }

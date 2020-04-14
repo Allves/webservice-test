@@ -1,13 +1,12 @@
-import { Component, Inject } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { IHub } from 'src/app/core/signalr/hub.model';
-import { FirebaseService } from '../../../../core/services/firebase.service';
-
+import { Component, Inject } from "@angular/core";
+import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { IHub } from "src/app/core/signalr/hub.model";
+import { FirebaseService } from "../../../../core/services/firebase.service";
 
 @Component({
-  templateUrl: './edit-hub-dialog.component.html',
-  styleUrls: ['./edit-hub-dialog.component.scss'],
+  templateUrl: "./edit-hub-dialog.component.html",
+  styleUrls: ["./edit-hub-dialog.component.scss"],
 })
 export class EditHubDialogComponent {
   formGroup: FormGroup;
@@ -24,65 +23,64 @@ export class EditHubDialogComponent {
       url: [this.data.url, Validators.required],
       description: [this.data.description],
       active: [this.data.active, Validators.required],
-      channels: this.formBuilder.array([]),
-      events: this.formBuilder.array([]),
+      methods: this.formBuilder.array([]),
+      streams: this.formBuilder.array([]),
     });
 
-
-    this.populateChannels(this.data);
-    this.populateEvents(this.data);
+    this.populateMethods(this.data);
+    this.populateStreams(this.data);
   }
 
-
-
-  populateChannels(hub: IHub) {
-    for (const channel of hub.channels) {
-      this.addChannel(channel);
-    }
-
-  }
-
-  populateEvents(hub: IHub) {
-    for (const channel of hub.events) {
-      this.addEvent(event);
+  populateMethods(hub: IHub) {
+    if (hub.methods && hub.methods.length >= 1) {
+      for (const method of hub.methods) {
+        this.addMethod(method);
+      }
     }
   }
-  get channels(): FormArray {
-    return this.formGroup.get("channels") as FormArray
+
+  populateStreams(hub: IHub) {
+    if (hub.streams && hub.streams.length >= 1) {
+      for (const stream of hub.streams) {
+        this.addStream(stream);
+      }
+    }
   }
 
-  createChannel(channel?) {
+  get methods(): FormArray {
+    return this.formGroup.get("methods") as FormArray;
+  }
+
+  createMethods(method?) {
     return this.formBuilder.group({
-      name: channel?.name || '',
+      name: method?.name || "",
     });
   }
 
-  addChannel(channel?) {
-    this.channels.push(this.createChannel(channel));
+  addMethod(method?) {
+    this.methods.push(this.createMethods(method));
   }
 
-  deleteChannel(i: number) {
-    this.channels.removeAt(i);
-
+  deleteMethods(i: number) {
+    this.methods.removeAt(i);
   }
 
-  get events(): FormArray {
-    return this.formGroup.get("events") as FormArray
+  get streams(): FormArray {
+    return this.formGroup.get("streams") as FormArray;
   }
 
-  createEvent(event?) {
+  createStreams(stream?) {
     return this.formBuilder.group({
-      name: event?.name || '',
+      name: stream?.name || "",
     });
   }
 
-  addEvent(event?) {
-    this.events.push(this.createEvent(event));
+  addStream(stream?) {
+    this.streams.push(this.createStreams(stream));
   }
 
-  deleteEvent(i: number) {
-    this.events.removeAt(i);
-
+  deleteStream(i: number) {
+    this.streams.removeAt(i);
   }
 
   submit() {
@@ -92,11 +90,9 @@ export class EditHubDialogComponent {
 
     this.firebaseService.updateHub(this.data.id, this.formGroup.value);
     this.dialogRef.close();
-
   }
 
   onNoClick(): void {
     this.dialogRef.close();
   }
-
 }
